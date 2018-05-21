@@ -1,0 +1,98 @@
+﻿body {
+    padding-top: 90px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+
+span.field-validation-error {
+    color: red;
+    font-weight: bold;
+}
+
+.cards > li {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+    .cards > li .date {
+        background-color: red;
+        color: white;
+        text-align:center;
+        width:60px;
+        border-radius :8px;
+    }
+        .cards > li .date .month {
+            text-transform:uppercase;
+            font-size:15px;
+            font-weight:bold;
+            padding:2px 6px;
+           
+        }
+        .cards > li .date .day {
+            background-color: #f7f7f7;
+            color:#333;
+            font-size: 20px;
+            padding:6px 12px;
+        }
+
+
+
+
+
+    .cards > li .details {
+        position: absolute;
+        top: 0px;
+        left: 70px;
+    }
+
+        .cards > li .details .name {
+            font-weight:bold;
+            display:block;
+        }
+
+        .cards > li .details .proffession {
+            font-size:15px;
+        }
+.cards{
+    list-style:none;
+}
+
+    .cards > li .action {
+        font-size: 15px;
+        display:none;
+    }
+
+    .cards > li:hover .action {
+        display: block;
+    }
+
+.navbar-inverse .notification {
+    position: relative;
+}
+
+    .navbar-inverse .notification .badge {
+        position: absolute;
+        right: 0;
+        top: 6px;
+       background:#a80a0a;
+    }

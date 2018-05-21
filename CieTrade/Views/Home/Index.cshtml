@@ -1,0 +1,141 @@
+﻿@*@model  IEnumerable<CieTrade.Models.Card>*@
+
+@model CieTrade.ViewModels.HomeViewModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<ul class="cards">
+    @foreach (var card in Model.ShowCards)
+    {
+        <li>
+            @*@card.DateTime -@card.UserProfessionals.Name*@
+
+
+            <div class="date">
+                <div class="month">
+                    @card.DateTime.ToString("MMM")
+                </div>
+                <div class="day">
+                    @card.DateTime.ToString("d ")
+                </div>
+            </div>
+
+            <div class="details">
+                <spam class="name">
+                    @card.UserProfessionals.Name
+                    @if(card.IsCanceled)
+                    {
+                    <span class="label label-warning">Canceled</span>
+                    }
+                </spam>
+                <span class="proffession">
+                    @card.Profession.Name
+                </span>
+                @if(Model.ShowAction)
+                {
+                     <button data-card-id="@card.Id" class="btn  btn-default btn-sm js-toggle">Going ? </button>
+                }
+            </div>
+
+        </li>
+    }
+
+</ul>
+<button class="btn btn-info" id="btn"> Load with JQuery</button>
+
+
+<div id="div1" style="display:none">
+    <div id="result">
+
+    </div>
+
+    <ul class="cards" id="roleType2"></ul>
+
+    <select id="roleType">
+        <option value="s">Select</option>
+    </select>
+
+</div>
+@section scripts {
+    <script>
+        $(document).ready(function ($) {
+
+            $(".js-toggle").click(function (e) {
+                var button = $(e.target);
+                $.post("/api/Followers", { cardId: button.attr("data-card-id") })
+                    .done(function () {
+                        button.removeClass("btn-default").addClass("btn-info").text("Going");
+                    })
+                    .fail(function(){
+                        alert("Something Failed");
+                    })
+            });
+
+
+             $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                contentType : 'application/json',
+                url: '@Url.Action("HelloAjax", "Home")',
+                success: function (result) {
+                    console.log(result);
+                    var array = result[0].UserProfessionals;
+                    console.log(array);
+
+                        for (i in array) {
+
+                            var s = 'User:' + result[0].UserProfessionals
+                            $('#result').html(s);
+                            $("#roleType").append("<option>" + result[i].UserProfessionals + " " + result[i].Name+ "</option>");
+                            $("#roleType2").append("<li>" + '<div class="date">'
+                                + '<div class="month">' + ToJavaScriptMonth(result[i].DateTime) + "</div>"
+                                + '<div class="day">' + ToJavaScriptDate(result[i].DateTime) + "</div>"+ "</div>" +
+                                '<div class="details">'
+                                + '<div class="name">' + result[i].UserProfessionals + '</div>'
+                                +   '<div class="proffession">' + result[i].Name + '</div>'
+                                +'</div>'+ "</li>");
+                            $("#roleType2").addClass("details");
+
+                        }
+                }
+            });
+
+             $("#btn").click(function () {
+                 $("#div1").slideToggle("slow");
+
+            });
+        });
+
+        function ToJavaScriptMonth(value) {
+            var pattern = /Date\(([^)]+)\)/;
+            var results = pattern.exec(value);
+            var dt = new Date(parseFloat(results[1]));
+            return  (monthNames[dt.getMonth() + 1])
+           // return "<div>"+(monthNames[dt.getMonth() + 1]) + "</div>" + dt.getDate();
+            //return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear();
+        }
+
+        function ToJavaScriptDate(value) {
+            var pattern = /Date\(([^)]+)\)/;
+            var results = pattern.exec(value);
+            var dt = new Date(parseFloat(results[1]));
+            return + dt.getDate();
+            //return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear();
+        }
+
+
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+
+        //$("#btn").click(function () {
+
+        //    alert("aaaaa")
+        //    $("#div1").css("background-color", " Red")
+        //});
+
+        //$("#div1").css("background-color"," Red")
+
+    </script>
+}

@@ -1,0 +1,45 @@
+﻿@model CieTrade.ViewModels.HomeViewModel
+@{
+    ViewBag.Title = "Following";
+}
+
+<h2>Following</h2>
+
+<ul class="cards">
+    @foreach (var card in Model.ShowCards)
+    {
+        <li>
+            @*@card.DateTime -@card.UserProfessionals.Name*@
+
+
+            <div class="date">
+                <div class="month">
+                    @card.DateTime.ToString("MMM")
+                </div>
+                <div class="day">
+                    @card.DateTime.ToString("d ")
+                </div>
+            </div>
+
+            <div class="details">
+                <spam class="name">
+                    @card.UserProfessionals.Name
+                    @if(card.IsCanceled)
+                    {
+                    <span class="label label-warning">Canceled</span>
+                    }
+                </spam>
+                <span class="proffession">
+                    @card.Profession.Name
+                </span>
+                @if (Model.ShowAction && !card.IsCanceled)
+                {
+                    <button data-card-id="@card.Id" class="btn  btn-default btn-sm js-toggle">Going ? </button>
+                }
+            </div>
+
+        </li>
+    }
+
+</ul>
+
